@@ -38,13 +38,6 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. Create `.env` (or set environment variables) — minimal:
-```
-DJANGO_SECRET_KEY=your_secret_key
-DATABASE_URL=postgres://user:pass@localhost:5432/dbname   # optional for Postgres
-DEBUG=True
-```
-
 ## Database migrations (recommended order)
 Run migrations in this order to avoid FK/migration dependency issues:
 
@@ -90,8 +83,8 @@ Application runs at `http://127.0.0.1:8000/` by default.
 - Leave: apply (POST `/leaves/`), employee history (`/leaves/me/`), HR approve/reject (`PUT /leaves/{id}/action/`)
 
 ## Postman collection & API documentation
-- Postman Collection (export included in repository): `HRMS_API_Collection.json`
-- Postman Environment (export included): `HRMS_ENV.json`
+- Postman Collection (export included in repository): `HRMS Leave Management API.postman_collection.json`
+- Postman Environment (export included): `HRMS-Dev..postman_environment.json`
 - Public API documentation (published): https://documenter.getpostman.com/view/49544672/2sB3Wjzj65
 
 ## Recommended Postman flow (short)
@@ -135,9 +128,3 @@ pip freeze > requirements.txt
 ## Testing and Postman export
 - Export Postman collection JSON and environment JSON and include them in the repo.
 - Ensure example responses in the collection are accurate and do not contain sensitive data.
-
-## Contact / Submission
-- Include this repository zip, GitHub repo URL, exported Postman collection JSON, exported Postman environment JSON, and the public Postman documentation link when submitting.
-
-Postman documentation link:
-https://documenter.getpostman.com/view/49544672/2sB3Wjzj65
