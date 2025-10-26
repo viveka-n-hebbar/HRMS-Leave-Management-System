@@ -1,0 +1,2595 @@
+{
+	"info": {
+		"_postman_id": "3e55497b-b904-4923-8492-278b77099fee",
+		"name": "HRMS Leave Management API",
+		"description": "> \n\nThis project follows a **simulated microservices architecture** with **multi-tenant support**.  \nEach core module (Auth, Organization, Employee, Policy, and Leave) is designed as an **independent Django app**, communicating internally like separate microservices within a **modular monolithic structure**.  \nMulti-tenancy is achieved using **foreign key relationships to the Organization model**, ensuring that all data (users, employees, policies, and leaves) is securely scoped to each organization while maintaining logical separation between tenants.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49544672",
+		"_collection_link": "https://vivekanew6-4541260.postman.co/workspace/4b374650-90f9-44a8-881f-4abb09fe6c8d/collection/49544672-3e55497b-b904-4923-8492-278b77099fee?action=share&source=collection_link&creator=49544672"
+	},
+	"item": [
+		{
+			"name": "00-Auth and Users",
+			"item": [
+				{
+					"name": "Register - Create  Super_admin(demo user)",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"admin1234@example.com\",\r\n  \"username\": \"superadmin1234\",\r\n  \"password\": \"Admin@123\",\r\n  \"role\": \"SUPERADMIN\",\r\n  \"organization\": null\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/register/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register",
+								""
+							]
+						},
+						"description": "### Super Admin Registration\n\nUsed to create the main Super Admin account for the system.\n\n**Access:** Public (only for initial setup)  \n**Request Body Example:**  \n{  \n\"email\": \"[admin@example.com](https://mailto:admin@example.com)\",  \n\"username\": \"superadmin\",  \n\"password\": \"Admin@123\",  \n\"role\": \"SUPERADMIN\"  \n}\n\n**Response:** 201 Created – Returns the SuperAdmin user details."
+					},
+					"response": [
+						{
+							"name": "Register - Create  Super_admin(demo user)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"admin1234@example.com\",\r\n  \"username\": \"superadmin1234\",\r\n  \"password\": \"Admin@123\",\r\n  \"role\": \"SUPERADMIN\",\r\n  \"organization\": null\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/api/auth/register/",
+									"path": [
+										"api",
+										"auth",
+										"register",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:16:56 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "109"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 12,\n    \"email\": \"admin1234@example.com\",\n    \"username\": \"superadmin1234\",\n    \"role\": \"SUPERADMIN\",\n    \"organization\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Login as Super_admin - get tokens",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"admin1234@example.com\",\r\n  \"password\": \"Admin@123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						},
+						"description": "### Super Admin Login\n\nAuthenticates a Super Admin and returns `access` and `refresh` tokens.\n\n**Access:** Public  \n**Use:** Copy the `access` token → Add it to Authorization Header as:  \nAuthorization: Bearer {{access_token}}"
+					},
+					"response": [
+						{
+							"name": "Login as Super_admin - get tokens",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"admin1234@example.com\",\r\n  \"password\": \"Admin@123\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/api/auth/login/",
+									"path": [
+										"api",
+										"auth",
+										"login",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:17:45 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "608"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc2MTQ5OTA2NSwiaWF0IjoxNzYxNDEyNjY1LCJqdGkiOiI0YWQ0ODVkZGM0ZGY0NzNkODc3Yjg3MTcyODhlODZiZSIsInVzZXJfaWQiOiIxMiJ9.E_o7eUPtl6TqpK-6q_35lCNvW-589ylu32ozabHHCyA\",\n    \"access\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYxNDE2MjY1LCJpYXQiOjE3NjE0MTI2NjUsImp0aSI6ImMyODU3NmU1Zjg1ODQxMDNiNDkwYWFmMzMxNzk4NTU5IiwidXNlcl9pZCI6IjEyIn0.Vwjna62Lf-nCaIivbyK1vRCh9vFdBnepe8rcUBwLisw\",\n    \"user\": {\n        \"id\": 12,\n        \"email\": \"admin1234@example.com\",\n        \"username\": \"superadmin1234\",\n        \"role\": \"SUPERADMIN\",\n        \"organization\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Register-HR User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin(only super admin can create hr",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"hrManager@technova.com\",\r\n  \"username\": \"technova_hrmanager\",\r\n  \"password\": \"HRpassword123\",\r\n  \"role\": \"HR\",\r\n  \"organization\": \"{{org_id}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/register/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register",
+								""
+							]
+						},
+						"description": "### HR Registration\n\nCreates a new HR user under a selected organization.\n\n**Access:** SuperAdmin only  \n**Request Example:**  \n{  \n\"email\": \"[hr@example.com](https://mailto:hr@example.com)\",  \n\"username\": \"hr_user\",  \n\"password\": \"Hr@123\",  \n\"organization\": \"{{org_id}}\"  \n}"
+					},
+					"response": [
+						{
+							"name": "Register-HR User",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin(only super admin can create hr",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"hrManager@technova.com\",\r\n  \"username\": \"technova_hrmanager\",\r\n  \"password\": \"HRpassword123\",\r\n  \"role\": \"HR\",\r\n  \"organization\": \"\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/api/auth/register/",
+									"path": [
+										"api",
+										"auth",
+										"register",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:18:45 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "140"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 13,\n    \"email\": \"hrManager@technova.com\",\n    \"username\": \"technova_hrmanager\",\n    \"role\": \"HR\",\n    \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Login as HR User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin(only super admin can create hr",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"hrManager@technova.com\",\r\n  \"password\": \"HRpassword123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						},
+						"description": "### HR Login\n\nAllows HR user to log in and receive tokens.\n\n**Access:** Public  \n**Response Example:**  \n{  \n\"access\": \"\",  \n\"refresh\": \"\"  \n}"
+					},
+					"response": [
+						{
+							"name": "Login as HR User",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin(only super admin can create hr",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"hrManager@technova.com\",\r\n  \"password\": \"HRpassword123\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/api/auth/login/",
+									"path": [
+										"api",
+										"auth",
+										"login",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:19:08 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "639"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc2MTQ5OTE0OCwiaWF0IjoxNzYxNDEyNzQ4LCJqdGkiOiIyM2M4ODVkYzkzMmQ0NzljYjJiMWExN2ExYWRjNTVjNCIsInVzZXJfaWQiOiIxMyJ9.WX1c34uN5sdrRz9BmB1v_3O0OsUbbxWU8UgEmR0ZeO4\",\n    \"access\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYxNDE2MzQ4LCJpYXQiOjE3NjE0MTI3NDgsImp0aSI6ImJmZDY3NzU0MDVlNDRjNGY4NGY5M2RjYmU0ZDUzY2E5IiwidXNlcl9pZCI6IjEzIn0._qqakHNaN4ZRHpJDgiJFpCwGDuIFjATqBT2trY-tIoI\",\n    \"user\": {\n        \"id\": 13,\n        \"email\": \"hrManager@technova.com\",\n        \"username\": \"technova_hrmanager\",\n        \"role\": \"HR\",\n        \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Register-as employee User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin(only super admin can create hr",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"emp12@technova.com\",\r\n  \"username\": \"Testemployee12\",\r\n  \"password\": \"password123\",\r\n  \"role\": \"EMPLOYEE\",\r\n  \"organization\": \"{{org_id}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/register/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register",
+								""
+							]
+						},
+						"description": "### Employee Registration\n\nCreates a new Employee user account linked to an organization.\n\n**Access:** HR or Super Admin only  \n**Required Fields:**\n\n- email\n    \n- username\n    \n- password\n    \n- organization (auto from HR’s org)"
+					},
+					"response": [
+						{
+							"name": "Register-as employee User",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin(only super admin can create hr",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"emp12@technova.com\",\r\n  \"username\": \"Testemployee12\",\r\n  \"password\": \"password123\",\r\n  \"role\": \"EMPLOYEE\",\r\n  \"organization\": \"\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/api/auth/register/",
+									"path": [
+										"api",
+										"auth",
+										"register",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:20:44 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "138"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 14,\n    \"email\": \"emp12@technova.com\",\n    \"username\": \"Testemployee12\",\n    \"role\": \"EMPLOYEE\",\n    \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Login as Employee User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin(only super admin can create hr",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"emp12@technova.com\",\r\n  \"password\": \"password123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						},
+						"description": "### Employee Login\n\nAllows employee to log in and obtain access token.\n\n**Access:** Public  \nUse token for further Employee API calls."
+					},
+					"response": [
+						{
+							"name": "Login as Employee User",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin(only super admin can create hr",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"emp12@technova.com\",\r\n  \"password\": \"password123\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/api/auth/login/",
+									"path": [
+										"api",
+										"auth",
+										"login",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:21:17 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "637"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc2MTQ5OTI3NywiaWF0IjoxNzYxNDEyODc3LCJqdGkiOiI4OThjNzA0MTJkMTc0NWQ0OTI5MTE3NmFmMzY3NmRkMyIsInVzZXJfaWQiOiIxNCJ9.6iyjfI9Mmv9Pc7DhgBVLH9gKVXkvqoZJBrWx81Ogwjs\",\n    \"access\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYxNDE2NDc3LCJpYXQiOjE3NjE0MTI4NzcsImp0aSI6IjAxNTQ1MDg3YWE0NTRiNDZiNDIzNzJlNWNjNDA1OTdlIiwidXNlcl9pZCI6IjE0In0.wnwEEGYcdMxjooCAptOSKZ8vKvV6Rg0QTxipKyXkXTg\",\n    \"user\": {\n        \"id\": 14,\n        \"email\": \"emp12@technova.com\",\n        \"username\": \"Testemployee12\",\n        \"role\": \"EMPLOYEE\",\n        \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "01-Organization",
+			"item": [
+				{
+					"name": "Create an Organization",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"TechNova at Pvt Ltd\",\r\n  \"code\": \"TEatO\",\r\n  \"timezone\":\"UTC\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/organization/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"organization",
+								""
+							]
+						},
+						"description": "Create a new organization.\n\nOnly **Super Admin** users can perform this action.\n\nRequires fields like **organization name**, **code**, and **time zone**.\n\n**Authorization:** Bearer Token (Super Admin)  \n**Method:** `POST`  \n**Endpoint:** `/api/organization/`"
+					},
+					"response": [
+						{
+							"name": "Create an Organization",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"TechNova at Pvt Ltd\",\r\n  \"code\": \"TEatO\",\r\n  \"timezone\":\"UTC\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/organization/",
+									"path": [
+										"organization",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:22:03 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "209"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"d3ea635a-57f0-4591-a299-29987749a0d3\",\n    \"name\": \"TechNova at Pvt Ltd\",\n    \"code\": \"TEatO\",\n    \"timezone\": \"UTC\",\n    \"is_active\": true,\n    \"created_at\": \"2025-10-25T17:22:03.455628Z\",\n    \"updated_at\": \"2025-10-25T17:22:03.455628Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "GET all Organization",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin(only super admin can create hr",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/organization/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"organization",
+								""
+							]
+						},
+						"description": "Retrieve a list of all organizations.\n\n- **Super Admin**: Can view all organizations.\n    \n- **HR/Employee**: Can view only their own organization.\n    \n\n**Authorization:** Bearer Token  \n**Method:** `GET`  \n**Endpoint:** `/api/organization/`\n\nEndFragment"
+					},
+					"response": [
+						{
+							"name": "GET all Organization",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin(only super admin can create hr",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "/organization/",
+									"path": [
+										"organization",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:22:30 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "842"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n        \"name\": \"Acme Pvt Ltd\",\n        \"code\": \"ACME\",\n        \"timezone\": \"Asia/Kolkata\",\n        \"is_active\": true,\n        \"created_at\": \"2025-10-24T05:22:41.991166Z\",\n        \"updated_at\": \"2025-10-24T05:22:41.991166Z\"\n    },\n    {\n        \"id\": \"41cef3d3-c18a-4225-957e-879fc11204bf\",\n        \"name\": \"TechNova Pvt Ltd new Updated\",\n        \"code\": \"TECHNOU\",\n        \"timezone\": \"UTC\",\n        \"is_active\": true,\n        \"created_at\": \"2025-10-25T13:19:26.551338Z\",\n        \"updated_at\": \"2025-10-25T13:46:07.736858Z\"\n    },\n    {\n        \"id\": \"6f8a34db-7f25-4c22-a586-2960e0f5dac0\",\n        \"name\": \"NEW org\",\n        \"code\": \"NECHNO\",\n        \"timezone\": \"UTC\",\n        \"is_active\": true,\n        \"created_at\": \"2025-10-25T13:42:22.024253Z\",\n        \"updated_at\": \"2025-10-25T13:42:22.024253Z\"\n    },\n    {\n        \"id\": \"d3ea635a-57f0-4591-a299-29987749a0d3\",\n        \"name\": \"TechNova at Pvt Ltd\",\n        \"code\": \"TEatO\",\n        \"timezone\": \"UTC\",\n        \"is_active\": true,\n        \"created_at\": \"2025-10-25T17:22:03.455628Z\",\n        \"updated_at\": \"2025-10-25T17:22:03.455628Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "GET Specfic Organization",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin(only super admin can create hr",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/organization/{{org_id}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"organization",
+								"{{org_id}}",
+								""
+							]
+						},
+						"description": "Retrieve detailed information for a specific organization using its **UUID**.  \n  \nExample: `/api/organization/{{org_id}}/`\n\n**Authorization:** Bearer Token  \n**Method:** `GET`  \n**Path Variable:** `org_id` (UUID)"
+					},
+					"response": [
+						{
+							"name": "GET Specfic Organization",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin(only super admin can create hr",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "/organization//",
+									"path": [
+										"organization",
+										"",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:23:20 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "210"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n    \"name\": \"Acme Pvt Ltd\",\n    \"code\": \"ACME\",\n    \"timezone\": \"Asia/Kolkata\",\n    \"is_active\": true,\n    \"created_at\": \"2025-10-24T05:22:41.991166Z\",\n    \"updated_at\": \"2025-10-24T05:22:41.991166Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Organization",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin(only super admin can create hr",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"TechNova Pvt Ltd new  at Updated\",\r\n  \"code\":\"TECHNATU\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/organization/{{org_id}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"organization",
+								"{{org_id}}",
+								""
+							]
+						},
+						"description": "Update organization details such as name, code, or time zone.  \n  \nOnly **Super Admin** users are allowed to perform this operation.\n\n**Authorization:** Bearer Token (Super Admin)  \n**Method:** `PUT`  \n**Endpoint:** `/api/organization/{{org_id}}/`"
+					},
+					"response": [
+						{
+							"name": "Update Organization",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin(only super admin can create hr",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"TechNova Pvt Ltd new  at Updated\",\r\n  \"code\":\"TECHNATU\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/organization//",
+									"path": [
+										"organization",
+										"",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:24:01 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "234"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n    \"name\": \"TechNova Pvt Ltd new  at Updated\",\n    \"code\": \"TECHNATU\",\n    \"timezone\": \"Asia/Kolkata\",\n    \"is_active\": true,\n    \"created_at\": \"2025-10-24T05:22:41.991166Z\",\n    \"updated_at\": \"2025-10-25T17:24:01.900967Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "DELETE Organization",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin(only super admin can create hr",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/organization/{{org_id}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"organization",
+								"{{org_id}}",
+								""
+							]
+						},
+						"description": "Delete an organization permanently using its **UUID**.  \n  \nOnly **Super Admin** can delete an organization.\n\n**Authorization:** Bearer Token (Super Admin)  \n**Method:** `DELETE`  \n**Endpoint:** `/api/organization/{{org_id}}/`"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "02-Employees",
+			"item": [
+				{
+					"name": "Link User  in employee app",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin or HR can Create employees",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": {{Auth_user_id}},\r\n    \"organization\": \"{{org_id}}\",\r\n    \"employee_code\": \"EM4\",\r\n    \"department\": \"Engineering\",\r\n    \"designation\": \"Software CS\",\r\n    \"date_of_joining\": \"2024-06-10\",\r\n    \"is_active\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/employees/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"employees",
+								""
+							]
+						},
+						"description": "Creates a new Employee record linked to an existing user and organization.  \n  \nOnly **SuperAdmin** or **HR** can create an employee.  \n  \nEach employee must already have a corresponding `User` (registered via the auth module).\n\n**Request Body Example:**\n\n```\n{\n  \"user\": \"{{user_id}}\",\n  \"organization\": \"{{org_id}}\",\n  \"employee_code\": \"EMP001\",\n  \"department\": \"Engineering\",\n  \"designation\": \"Software Engineer\",\n  \"date_of_joining\": \"2024-06-10\",\n  \"is_active\": true\n}\n\n ```\n\n**Notes:**\n\n- `user` and `organization` should use environment variables like `{{user_id}}` and `{{org_id}}`.\n    \n- Duplicate `employee_code` is not allowed."
+					},
+					"response": [
+						{
+							"name": "Link User  in employee app",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin or HR can Create employees",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": ,\r\n    \"organization\": \"\",\r\n    \"employee_code\": \"EM4\",\r\n    \"department\": \"Engineering\",\r\n    \"designation\": \"Software CS\",\r\n    \"date_of_joining\": \"2024-06-10\",\r\n    \"is_active\": true\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/employees/",
+									"path": [
+										"employees",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:30:43 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "410"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"654b0da6-dcf9-4898-9062-43dce682ca7c\",\n    \"user\": 12,\n    \"username\": \"superadmin1234\",\n    \"user_email\": \"admin1234@example.com\",\n    \"user_role\": \"SUPERADMIN\",\n    \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n    \"employee_code\": \"EM4\",\n    \"department\": \"Engineering\",\n    \"designation\": \"Software CS\",\n    \"date_of_joining\": \"2024-06-10\",\n    \"is_active\": true,\n    \"created_at\": \"2025-10-25T17:30:43.729186Z\",\n    \"updated_at\": \"2025-10-25T17:30:43.729186Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "GET all Employees",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin(only super admin can create hr",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/employees/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"employees",
+								""
+							]
+						},
+						"description": "**Description:**  \n  \nFetches a list of employees.\n\n- **SuperAdmin** → sees all employees.\n    \n- **HR** → sees only employees in their own organization.\n    \n- **Employee** → sees only their own record."
+					},
+					"response": [
+						{
+							"name": "GET all Employees",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin(only super admin can create hr",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "/employees/",
+									"path": [
+										"employees",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:33:09 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2441"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"6341e817-d07d-43a7-84a7-ced0558c5dbf\",\n        \"user\": 4,\n        \"username\": \"hr_manager\",\n        \"user_email\": \"hrmanager@example.com\",\n        \"user_role\": \"HR\",\n        \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n        \"employee_code\": \"HR001\",\n        \"department\": \"Human Resources\",\n        \"designation\": \"HR Manager\",\n        \"date_of_joining\": \"2022-05-10\",\n        \"is_active\": true,\n        \"created_at\": \"2025-10-24T05:34:01.948528Z\",\n        \"updated_at\": \"2025-10-24T05:34:01.948528Z\"\n    },\n    {\n        \"id\": \"c979ad7a-4873-4197-83a8-a0388ee26fa3\",\n        \"user\": 6,\n        \"username\": \"2hr_manager\",\n        \"user_email\": \"secondhrmanager@example.com\",\n        \"user_role\": \"HR\",\n        \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n        \"employee_code\": \"EMP003\",\n        \"department\": \"Engineering\",\n        \"designation\": \"Software Engineer\",\n        \"date_of_joining\": \"2024-06-01\",\n        \"is_active\": true,\n        \"created_at\": \"2025-10-24T13:50:22.822907Z\",\n        \"updated_at\": \"2025-10-24T13:50:22.822907Z\"\n    },\n    {\n        \"id\": \"0de7e7d1-9cdc-49aa-ae7a-e7a482f5d8e3\",\n        \"user\": 2,\n        \"username\": \"hr\",\n        \"user_email\": \"hr@example.com\",\n        \"user_role\": \"HR\",\n        \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n        \"employee_code\": \"EMP008\",\n        \"department\": \"HRManger\",\n        \"designation\": \"HR\",\n        \"date_of_joining\": \"2024-06-01\",\n        \"is_active\": true,\n        \"created_at\": \"2025-10-24T14:51:16.066743Z\",\n        \"updated_at\": \"2025-10-24T14:51:48.081974Z\"\n    },\n    {\n        \"id\": \"3f1be8de-25f5-4759-ad46-f6fd7cdd56cf\",\n        \"user\": 9,\n        \"username\": \"superadmin123\",\n        \"user_email\": \"admin123@example.com\",\n        \"user_role\": \"SUPERADMIN\",\n        \"organization\": \"41cef3d3-c18a-4225-957e-879fc11204bf\",\n        \"employee_code\": \"EMP000123\",\n        \"department\": \"Engineering\",\n        \"designation\": \"Software updated CS\",\n        \"date_of_joining\": \"2024-06-10\",\n        \"is_active\": true,\n        \"created_at\": \"2025-10-25T14:01:30.462006Z\",\n        \"updated_at\": \"2025-10-25T14:12:12.195275Z\"\n    },\n    {\n        \"id\": \"38230a8f-292d-4603-9df5-b72844ee9c52\",\n        \"user\": 11,\n        \"username\": \"Testemployee\",\n        \"user_email\": \"emp@technova.com\",\n        \"user_role\": \"EMPLOYEE\",\n        \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n        \"employee_code\": \"EMP000111\",\n        \"department\": \"Engineering\",\n        \"designation\": \"Software updated CS\",\n        \"date_of_joining\": \"2024-06-10\",\n        \"is_active\": true,\n        \"created_at\": \"2025-10-25T15:28:01.958347Z\",\n        \"updated_at\": \"2025-10-25T15:29:29.684210Z\"\n    },\n    {\n        \"id\": \"654b0da6-dcf9-4898-9062-43dce682ca7c\",\n        \"user\": 12,\n        \"username\": \"superadmin1234\",\n        \"user_email\": \"admin1234@example.com\",\n        \"user_role\": \"SUPERADMIN\",\n        \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n        \"employee_code\": \"EM4\",\n        \"department\": \"Engineering\",\n        \"designation\": \"Software CS\",\n        \"date_of_joining\": \"2024-06-10\",\n        \"is_active\": true,\n        \"created_at\": \"2025-10-25T17:30:43.729186Z\",\n        \"updated_at\": \"2025-10-25T17:30:43.729186Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "GET Specific Employee details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin(only super admin can create hr",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/employees/{{employee_user_id}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"employees",
+								"{{employee_user_id}}",
+								""
+							]
+						},
+						"description": "**Description:**  \n  \nRetrieves details of a specific employee using their UUID.  \n  \nAccess depends on role:\n\n- **SuperAdmin** → can access any employee.\n    \n- **HR** → can access employees within their organization.\n    \n- **Employee** → can access their own record only.\n    \n\n**Path Parameter Example:**  \n`/employee/{{employee_id}}/`"
+					},
+					"response": [
+						{
+							"name": "GET Specific Employee details",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin(only super admin can create hr",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "/employees//",
+									"path": [
+										"employees",
+										"",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:33:57 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "415"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"38230a8f-292d-4603-9df5-b72844ee9c52\",\n    \"user\": 11,\n    \"username\": \"Testemployee\",\n    \"user_email\": \"emp@technova.com\",\n    \"user_role\": \"EMPLOYEE\",\n    \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n    \"employee_code\": \"EMP000111\",\n    \"department\": \"Engineering\",\n    \"designation\": \"Software updated CS\",\n    \"date_of_joining\": \"2024-06-10\",\n    \"is_active\": true,\n    \"created_at\": \"2025-10-25T15:28:01.958347Z\",\n    \"updated_at\": \"2025-10-25T15:29:29.684210Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update employee",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin or HR can Create employees",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": {{Auth_user_id}},\r\n    \"organization\": \"{{org_id}}\",\r\n    \"employee_code\": \"EM111\",\r\n    \"department\": \"Engineering\",\r\n    \"designation\": \"Software updated CS\",\r\n    \"date_of_joining\": \"2024-06-10\",\r\n    \"is_active\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/employees/{{employee_user_id}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"employees",
+								"{{employee_user_id}}",
+								""
+							]
+						},
+						"description": "**Description:**  \n  \nUpdates employee details such as department, designation, or active status.  \n  \nOnly **SuperAdmin** or **HR** can perform this action.\n\n**Request Body Example:**\n\n```\n{\n  \"organization\": \"{{org_id}}\",\n  \"department\": \"Technology\",\n  \"designation\": \"Senior Software Engineer\",\n  \"is_active\": true\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Update employee",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin or HR can Create employees",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": ,\r\n    \"organization\": \"\",\r\n    \"employee_code\": \"EM111\",\r\n    \"department\": \"Engineering\",\r\n    \"designation\": \"Software updated CS\",\r\n    \"date_of_joining\": \"2024-06-10\",\r\n    \"is_active\": true\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/employees//",
+									"path": [
+										"employees",
+										"",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:34:25 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "411"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"38230a8f-292d-4603-9df5-b72844ee9c52\",\n    \"user\": 11,\n    \"username\": \"Testemployee\",\n    \"user_email\": \"emp@technova.com\",\n    \"user_role\": \"EMPLOYEE\",\n    \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n    \"employee_code\": \"EM111\",\n    \"department\": \"Engineering\",\n    \"designation\": \"Software updated CS\",\n    \"date_of_joining\": \"2024-06-10\",\n    \"is_active\": true,\n    \"created_at\": \"2025-10-25T15:28:01.958347Z\",\n    \"updated_at\": \"2025-10-25T17:34:25.638568Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "DELETE  employee",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin or HR can Create employees",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/employees/{{employee_user_id}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"employees",
+								"{{employee_user_id}}",
+								""
+							]
+						},
+						"description": "**Description:**  \n  \nDeletes an employee record by UUID.  \n  \nOnly **SuperAdmin** can perform this operation.\n\n**Notes:**\n\n- Once deleted, the employee record cannot be recovered.\n    \n- Associated leaves or policies will remain linked to history (if applicable)."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "03-Policies",
+			"item": [
+				{
+					"name": "Create new Policies",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin or HR can Create employees",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"{{org_id}}\",\r\n    \"name\": \"Annual  new Leave\",\r\n    \"policy_type\": \"ANNUAL\",\r\n    \"description\": \"Annual leave policy for all employees\",\r\n    \"max_days_per_year\": 20,\r\n    \"carry_forward_days\": 5,\r\n    \"requires_document\": false,\r\n    \"max_days_without_doc\": 3,\r\n    \"notice_period_days\": 2,\r\n    \"allow_encashment\": true,\r\n    \"encashment_limit\": 10,\r\n    \"is_active\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/policies/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"policies",
+								""
+							]
+						},
+						"description": "**Description:**  \n  \nCreates a new leave policy for an organization.  \n  \nOnly **SUPERADMIN** or **HR** users can create a policy.  \n  \nRequired fields:\n\n- `organization` – UUID of the organization (environment variable: `{{org_id}}`)\n    \n- `name` – Name of the policy (e.g. \"Annual Leave\")\n    \n- `policy_type` – Type of policy (`ANNUAL`, `SICK`, `CASUAL`, `UNPAID`)\n    \n- `max_days_per_year` – Maximum leave days allowed per year\n    \n- `carry_forward_days` – Days that can be carried forward to next year\n    \n- `requires_document` – Whether a document is required\n    \n- `max_days_without_doc` – Days allowed without document\n    \n- `notice_period_days` – Minimum notice required before applying leave\n    \n- `allow_encashment` – Whether leave encashment is allowed\n    \n- `encashment_limit` – Maximum days allowed for encashment"
+					},
+					"response": [
+						{
+							"name": "Create new Policies",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin or HR can Create employees",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"organization\": \"\",\r\n    \"name\": \"Annual  new Leave\",\r\n    \"policy_type\": \"ANNUAL\",\r\n    \"description\": \"Annual leave policy for all employees\",\r\n    \"max_days_per_year\": 20,\r\n    \"carry_forward_days\": 5,\r\n    \"requires_document\": false,\r\n    \"max_days_without_doc\": 3,\r\n    \"notice_period_days\": 2,\r\n    \"allow_encashment\": true,\r\n    \"encashment_limit\": 10,\r\n    \"is_active\": true\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/policies/",
+									"path": [
+										"policies",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:39:27 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "656"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"a705191a-77a6-44b1-98f6-9a2ce7caf5e5\",\n    \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n    \"organization_name\": \"TechNova Pvt Ltd new  at Updated\",\n    \"name\": \"Annual  new Leave\",\n    \"policy_type\": \"ANNUAL\",\n    \"description\": \"Annual leave policy for all employees\",\n    \"max_days_per_year\": 20,\n    \"carry_forward_days\": 5,\n    \"requires_document\": false,\n    \"max_days_without_doc\": 3,\n    \"notice_period_days\": 2,\n    \"allow_encashment\": true,\n    \"encashment_limit\": 10,\n    \"is_active\": true,\n    \"created_by\": 12,\n    \"created_by_username\": \"superadmin1234\",\n    \"created_by_email\": \"admin1234@example.com\",\n    \"created_by_role\": \"SUPERADMIN\",\n    \"created_at\": \"2025-10-25T17:39:27.796802Z\",\n    \"updated_at\": \"2025-10-25T17:39:27.796802Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "GET all Policies",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin(only super admin can create hr",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/policies/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"policies",
+								""
+							]
+						},
+						"description": "**Description:**  \n  \nFetches all leave policies available.\n\n- **SUPERADMIN**: sees all organizations' policies\n    \n- **HR / EMPLOYEE**: sees only their organization’s policies"
+					},
+					"response": [
+						{
+							"name": "GET all Policies",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin(only super admin can create hr",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "/policies/",
+									"path": [
+										"policies",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:40:09 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "4514"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"092fc303-c548-443a-bb1c-dda28ed95702\",\n        \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n        \"organization_name\": \"TechNova Pvt Ltd new  at Updated\",\n        \"name\": \"upadted new Policy 2026\",\n        \"policy_type\": \"ANNUAL\",\n        \"description\": \"Annual leave policy for all employees with new .\",\n        \"max_days_per_year\": 25,\n        \"carry_forward_days\": 5,\n        \"requires_document\": false,\n        \"max_days_without_doc\": 0,\n        \"notice_period_days\": 10,\n        \"allow_encashment\": true,\n        \"encashment_limit\": 5,\n        \"is_active\": true,\n        \"created_by\": 2,\n        \"created_by_username\": \"hr\",\n        \"created_by_email\": \"hr@example.com\",\n        \"created_by_role\": \"HR\",\n        \"created_at\": \"2025-10-24T05:49:01.895673Z\",\n        \"updated_at\": \"2025-10-25T05:12:03.390345Z\"\n    },\n    {\n        \"id\": \"2b47333e-ec3d-47d7-8031-3055f6833a02\",\n        \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n        \"organization_name\": \"TechNova Pvt Ltd new  at Updated\",\n        \"name\": \"Sick Leave\",\n        \"policy_type\": \"SICK\",\n        \"description\": \"Sick leave policy for all employees.\",\n        \"max_days_per_year\": 10,\n        \"carry_forward_days\": 2,\n        \"requires_document\": true,\n        \"max_days_without_doc\": 2,\n        \"notice_period_days\": 0,\n        \"allow_encashment\": false,\n        \"encashment_limit\": 0,\n        \"is_active\": true,\n        \"created_by\": 6,\n        \"created_by_username\": \"2hr_manager\",\n        \"created_by_email\": \"secondhrmanager@example.com\",\n        \"created_by_role\": \"HR\",\n        \"created_at\": \"2025-10-24T15:06:39.348511Z\",\n        \"updated_at\": \"2025-10-24T15:06:39.348511Z\"\n    },\n    {\n        \"id\": \"03624f1c-a905-4466-b790-996178f3a67a\",\n        \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n        \"organization_name\": \"TechNova Pvt Ltd new  at Updated\",\n        \"name\": \"SickNEWLeave\",\n        \"policy_type\": \"SICK\",\n        \"description\": \"\",\n        \"max_days_per_year\": 10,\n        \"carry_forward_days\": 0,\n        \"requires_document\": true,\n        \"max_days_without_doc\": 3,\n        \"notice_period_days\": 0,\n        \"allow_encashment\": false,\n        \"encashment_limit\": 0,\n        \"is_active\": true,\n        \"created_by\": 6,\n        \"created_by_username\": \"2hr_manager\",\n        \"created_by_email\": \"secondhrmanager@example.com\",\n        \"created_by_role\": \"HR\",\n        \"created_at\": \"2025-10-24T16:53:49.314250Z\",\n        \"updated_at\": \"2025-10-24T16:53:49.314250Z\"\n    },\n    {\n        \"id\": \"7cab21ab-5de3-414d-8c23-fa24256eab63\",\n        \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n        \"organization_name\": \"TechNova Pvt Ltd new  at Updated\",\n        \"name\": \"new 2026\",\n        \"policy_type\": \"ANNUAL\",\n        \"description\": \"Annual leave policy for all employees with new .\",\n        \"max_days_per_year\": 25,\n        \"carry_forward_days\": 5,\n        \"requires_document\": false,\n        \"max_days_without_doc\": 0,\n        \"notice_period_days\": 10,\n        \"allow_encashment\": true,\n        \"encashment_limit\": 5,\n        \"is_active\": true,\n        \"created_by\": 6,\n        \"created_by_username\": \"2hr_manager\",\n        \"created_by_email\": \"secondhrmanager@example.com\",\n        \"created_by_role\": \"HR\",\n        \"created_at\": \"2025-10-25T05:13:32.222943Z\",\n        \"updated_at\": \"2025-10-25T05:13:32.222943Z\"\n    },\n    {\n        \"id\": \"38eff16b-8cc0-40a9-8dbd-d106d39701fd\",\n        \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n        \"organization_name\": \"TechNova Pvt Ltd new  at Updated\",\n        \"name\": \"best updated 2025\",\n        \"policy_type\": \"ANNUAL\",\n        \"description\": \"Annual leave policy for all employees with new .\",\n        \"max_days_per_year\": 25,\n        \"carry_forward_days\": 5,\n        \"requires_document\": false,\n        \"max_days_without_doc\": 0,\n        \"notice_period_days\": 15,\n        \"allow_encashment\": true,\n        \"encashment_limit\": 5,\n        \"is_active\": true,\n        \"created_by\": 6,\n        \"created_by_username\": \"2hr_manager\",\n        \"created_by_email\": \"secondhrmanager@example.com\",\n        \"created_by_role\": \"HR\",\n        \"created_at\": \"2025-10-25T05:22:22.457489Z\",\n        \"updated_at\": \"2025-10-25T05:23:12.180210Z\"\n    },\n    {\n        \"id\": \"dd1cd7d7-32ea-438d-8915-753ccd3fdbc7\",\n        \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n        \"organization_name\": \"TechNova Pvt Ltd new  at Updated\",\n        \"name\": \"Annual Leave\",\n        \"policy_type\": \"ANNUAL\",\n        \"description\": \"Annual leave policy for all employees\",\n        \"max_days_per_year\": 20,\n        \"carry_forward_days\": 5,\n        \"requires_document\": false,\n        \"max_days_without_doc\": 3,\n        \"notice_period_days\": 2,\n        \"allow_encashment\": true,\n        \"encashment_limit\": 10,\n        \"is_active\": true,\n        \"created_by\": 9,\n        \"created_by_username\": \"superadmin123\",\n        \"created_by_email\": \"admin123@example.com\",\n        \"created_by_role\": \"SUPERADMIN\",\n        \"created_at\": \"2025-10-25T14:28:44.266063Z\",\n        \"updated_at\": \"2025-10-25T14:28:44.266063Z\"\n    },\n    {\n        \"id\": \"a705191a-77a6-44b1-98f6-9a2ce7caf5e5\",\n        \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n        \"organization_name\": \"TechNova Pvt Ltd new  at Updated\",\n        \"name\": \"Annual  new Leave\",\n        \"policy_type\": \"ANNUAL\",\n        \"description\": \"Annual leave policy for all employees\",\n        \"max_days_per_year\": 20,\n        \"carry_forward_days\": 5,\n        \"requires_document\": false,\n        \"max_days_without_doc\": 3,\n        \"notice_period_days\": 2,\n        \"allow_encashment\": true,\n        \"encashment_limit\": 10,\n        \"is_active\": true,\n        \"created_by\": 12,\n        \"created_by_username\": \"superadmin1234\",\n        \"created_by_email\": \"admin1234@example.com\",\n        \"created_by_role\": \"SUPERADMIN\",\n        \"created_at\": \"2025-10-25T17:39:27.796802Z\",\n        \"updated_at\": \"2025-10-25T17:39:27.796802Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "GET Specific Policies",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin(only super admin can create hr",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/policies/{{policy_id}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"policies",
+								"{{policy_id}}",
+								""
+							]
+						},
+						"description": "**Description:**  \n  \nFetch details of a specific policy using its UUID.  \n  \nAccessible by SUPERADMIN and HR of the same organization."
+					},
+					"response": [
+						{
+							"name": "GET Specific Policies",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin(only super admin can create hr",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "/policies//",
+									"path": [
+										"policies",
+										"",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:41:05 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "648"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"dd1cd7d7-32ea-438d-8915-753ccd3fdbc7\",\n    \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n    \"organization_name\": \"TechNova Pvt Ltd new  at Updated\",\n    \"name\": \"Annual Leave\",\n    \"policy_type\": \"ANNUAL\",\n    \"description\": \"Annual leave policy for all employees\",\n    \"max_days_per_year\": 20,\n    \"carry_forward_days\": 5,\n    \"requires_document\": false,\n    \"max_days_without_doc\": 3,\n    \"notice_period_days\": 2,\n    \"allow_encashment\": true,\n    \"encashment_limit\": 10,\n    \"is_active\": true,\n    \"created_by\": 9,\n    \"created_by_username\": \"superadmin123\",\n    \"created_by_email\": \"admin123@example.com\",\n    \"created_by_role\": \"SUPERADMIN\",\n    \"created_at\": \"2025-10-25T14:28:44.266063Z\",\n    \"updated_at\": \"2025-10-25T14:28:44.266063Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "GET Policies Updated History",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin(only super admin can create hr",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/policies/history/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"policies",
+								"history",
+								""
+							]
+						},
+						"description": "Returns the change history of a specific policy.  \n  \nEach version contains:\n\n- Policy name and type\n    \n- Version number\n    \n- What fields changed (`changed_data`)\n    \n- Who made the change (`changed_by`)\n    \n- When it was changed (`changed_at`)  \n      \n    Accessible by SUPERADMIN, HR, and employees (read-only)."
+					},
+					"response": [
+						{
+							"name": "GET Policies Updated History",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin(only super admin can create hr",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "/policies/history/",
+									"path": [
+										"policies",
+										"history",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:41:57 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2585"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 5,\n        \"policy\": \"a705191a-77a6-44b1-98f6-9a2ce7caf5e5\",\n        \"policy_name\": \"Annual  new Leave\",\n        \"policy_type\": \"ANNUAL\",\n        \"version_number\": 1,\n        \"policy_snapshot\": \"Name: Annual  new Leave\\nType: ANNUAL\\nDescription: Annual leave policy for all employees\\nOrganization: TechNova Pvt Ltd new  at Updated\\nMax Days/Year: 20\\nCarry Forward Days: 5\\nRequires Document: False\\nMax Days Without Doc: 3\\nNotice Period Days: 2\\nAllow Encashment: True\\nEncashment Limit: 10\\nIs Active: True\\nUpdated At: 2025-10-25 17:39:27.796802+00:00\\nChanged By: admin1234@example.com\\n\",\n        \"changed_by\": 12,\n        \"changed_by_email\": \"admin1234@example.com\",\n        \"changed_at\": \"2025-10-25T17:39:27.813790Z\"\n    },\n    {\n        \"id\": 3,\n        \"policy\": \"dd1cd7d7-32ea-438d-8915-753ccd3fdbc7\",\n        \"policy_name\": \"Annual Leave\",\n        \"policy_type\": \"ANNUAL\",\n        \"version_number\": 1,\n        \"policy_snapshot\": \"Name: Annual Leave\\nType: ANNUAL\\nDescription: Annual leave policy for all employees\\nOrganization: Acme Pvt Ltd\\nMax Days/Year: 20\\nCarry Forward Days: 5\\nRequires Document: False\\nMax Days Without Doc: 3\\nNotice Period Days: 2\\nAllow Encashment: True\\nEncashment Limit: 10\\nIs Active: True\\nUpdated At: 2025-10-25 14:28:44.266063+00:00\\nChanged By: admin123@example.com\\n\",\n        \"changed_by\": 9,\n        \"changed_by_email\": \"admin123@example.com\",\n        \"changed_at\": \"2025-10-25T14:28:44.283051Z\"\n    },\n    {\n        \"id\": 2,\n        \"policy\": \"38eff16b-8cc0-40a9-8dbd-d106d39701fd\",\n        \"policy_name\": \"best updated 2025\",\n        \"policy_type\": \"ANNUAL\",\n        \"version_number\": 2,\n        \"policy_snapshot\": \"Name: best updated 2025\\nType: ANNUAL\\nDescription: Annual leave policy for all employees with new .\\nOrganization: Acme Pvt Ltd\\nMax Days/Year: 25\\nCarry Forward Days: 5\\nRequires Document: False\\nMax Days Without Doc: 0\\nNotice Period Days: 15\\nAllow Encashment: True\\nEncashment Limit: 5\\nIs Active: True\\nUpdated At: 2025-10-25 05:23:12.180210+00:00\\nChanged By: secondhrmanager@example.com\\n\",\n        \"changed_by\": 6,\n        \"changed_by_email\": \"secondhrmanager@example.com\",\n        \"changed_at\": \"2025-10-25T05:23:12.199253Z\"\n    },\n    {\n        \"id\": 1,\n        \"policy\": \"38eff16b-8cc0-40a9-8dbd-d106d39701fd\",\n        \"policy_name\": \"best updated 2025\",\n        \"policy_type\": \"ANNUAL\",\n        \"version_number\": 1,\n        \"policy_snapshot\": \"Name: best  2026\\nType: ANNUAL\\nDescription: Annual leave policy for all employees with new .\\nOrganization: Acme Pvt Ltd\\nMax Days/Year: 25\\nCarry Forward Days: 5\\nRequires Document: False\\nMax Days Without Doc: 0\\nNotice Period Days: 10\\nAllow Encashment: True\\nEncashment Limit: 5\\nIs Active: True\\nUpdated At: 2025-10-25 05:22:22.457489+00:00\\nChanged By: secondhrmanager@example.com\\n\",\n        \"changed_by\": 6,\n        \"changed_by_email\": \"secondhrmanager@example.com\",\n        \"changed_at\": \"2025-10-25T05:22:22.469170Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "DELETE Specific Policies",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin(only super admin can create hr",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/policies/{{policy_id}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"policies",
+								"{{policy_id}}",
+								""
+							]
+						},
+						"description": "Deletes a specific leave policy.  \n  \nOnly **SUPERADMIN** can delete policies.  \n  \nReturns **204 No Content** on success (no body content)."
+					},
+					"response": []
+				},
+				{
+					"name": "Updated  Policie",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin or HR can Create employees",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organization\": \"{{org_id}}\",\r\n    \"name\": \" NEW Updated Annual Leave\",\r\n    \"policy_type\": \"ANNUAL\",\r\n    \"description\": \"NEW updated Annual leave policy for all employees\",\r\n    \"max_days_per_year\": 20,\r\n    \"carry_forward_days\": 5,\r\n    \"requires_document\": false,\r\n    \"max_days_without_doc\": 3,\r\n    \"notice_period_days\": 2,\r\n    \"allow_encashment\": true,\r\n    \"encashment_limit\": 10,\r\n    \"is_active\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/policies/{{policy_id}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"policies",
+								"{{policy_id}}",
+								""
+							]
+						},
+						"description": "Updates an existing leave policy.  \n  \nOnly **SUPERADMIN** or **HR** of the same organization can update.  \n  \nAutomatically stores versioned change details in **LeavePolicyHistory**."
+					},
+					"response": [
+						{
+							"name": "Updated  Policie",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin or HR can Create employees",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"organization\": \"\",\r\n    \"name\": \" NEW Updated Annual Leave\",\r\n    \"policy_type\": \"ANNUAL\",\r\n    \"description\": \"NEW updated Annual leave policy for all employees\",\r\n    \"max_days_per_year\": 20,\r\n    \"carry_forward_days\": 5,\r\n    \"requires_document\": false,\r\n    \"max_days_without_doc\": 3,\r\n    \"notice_period_days\": 2,\r\n    \"allow_encashment\": true,\r\n    \"encashment_limit\": 10,\r\n    \"is_active\": true\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/policies//",
+									"path": [
+										"policies",
+										"",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:44:07 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "672"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"dd1cd7d7-32ea-438d-8915-753ccd3fdbc7\",\n    \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n    \"organization_name\": \"TechNova Pvt Ltd new  at Updated\",\n    \"name\": \"NEW Updated Annual Leave\",\n    \"policy_type\": \"ANNUAL\",\n    \"description\": \"NEW updated Annual leave policy for all employees\",\n    \"max_days_per_year\": 20,\n    \"carry_forward_days\": 5,\n    \"requires_document\": false,\n    \"max_days_without_doc\": 3,\n    \"notice_period_days\": 2,\n    \"allow_encashment\": true,\n    \"encashment_limit\": 10,\n    \"is_active\": true,\n    \"created_by\": 9,\n    \"created_by_username\": \"superadmin123\",\n    \"created_by_email\": \"admin123@example.com\",\n    \"created_by_role\": \"SUPERADMIN\",\n    \"created_at\": \"2025-10-25T14:28:44.266063Z\",\n    \"updated_at\": \"2025-10-25T17:44:07.901952Z\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "04-Leaves",
+			"item": [
+				{
+					"name": "Employee Applies for Leave",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin or HR can Create employees",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"policy\": \"{{policy_id}}\",\r\n    \"start_date\": \"2025-11-01\",\r\n    \"end_date\": \"2025-11-03\",\r\n    \"reason\": \"Family trip\",\r\n    \"attachment\": null\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/leaves/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"leaves",
+								""
+							]
+						},
+						"description": "Employee applies for a leave request under a specific policy.  \nOnly logged-in employees can apply.\n\nRequired Fields:\n\n- policy – UUID of the leave policy ({{policy_id}})\n    \n- start_date – Leave start date\n    \n- end_date – Leave end date\n    \n- reason – Reason for leave (e.g., \"Family Trip\")\n    \n- attachment – Optional document upload (nullable)\n    \n\nNotes:\n\n- The system automatically links the logged-in employee’s profile and organization.\n    \n- Status defaults to \"Pending\" until reviewed by HR.\n    \n- For leave approval there are specific condition it should be satisfy like leave should not be greater than three days if it's greater than three days you should attach any supporting document like that ...there are around 12 to 15 conditions then only leave will apply"
+					},
+					"response": [
+						{
+							"name": "Employee Applies for Leave",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin or HR can Create employees",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"policy\": \"\",\r\n    \"start_date\": \"2025-11-01\",\r\n    \"end_date\": \"2025-11-03\",\r\n    \"reason\": \"Family trip\",\r\n    \"attachment\": null\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/leaves/",
+									"path": [
+										"leaves",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:50:56 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "655"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"5ac8681f-5568-4dea-9f18-73978642bcc3\",\n    \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n    \"organization_name\": \"TechNova Pvt Ltd new  at Updated\",\n    \"employee\": \"38230a8f-292d-4603-9df5-b72844ee9c52\",\n    \"employee_name\": \"Testemployee\",\n    \"employee_email\": \"emp@technova.com\",\n    \"employee_role\": \"EMPLOYEE\",\n    \"user\": 11,\n    \"policy\": \"dd1cd7d7-32ea-438d-8915-753ccd3fdbc7\",\n    \"policy_name\": \"NEW Updated Annual Leave\",\n    \"start_date\": \"2025-11-01\",\n    \"end_date\": \"2025-11-03\",\n    \"reason\": \"Family trip\",\n    \"attachment\": null,\n    \"status\": \"Pending\",\n    \"remarks\": null,\n    \"reviewed_by\": null,\n    \"reviewed_by_username\": null,\n    \"created_at\": \"2025-10-25T17:50:56.753998Z\",\n    \"updated_at\": \"2025-10-25T17:50:56.753998Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "HR Reviews the Leave Request",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin or HR can Create employees",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"action\": \"approve\",\r\n    \"remarks\": \"Approved. Enjoy your leave!\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/leaves/{{leave_id}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"leaves",
+								"{{leave_id}}",
+								""
+							]
+						},
+						"description": "Used by HR to take action on an employee’s leave request.\n\nFields:\n\n- action – One of: APPROVE, REJECT, or CANCEL\n    \n- comments – Optional reason for action\n    \n\nNotes:\n\n- Only HR users of the same organization can perform this action.\n    \n- Once a leave is approved or rejected, it cannot be edited by the employee."
+					},
+					"response": [
+						{
+							"name": "HR Reviews the Leave Request",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin or HR can Create employees",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"action\": \"approve\",\r\n    \"remarks\": \"Approved. Enjoy your leave!\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/leaves//",
+									"path": [
+										"leaves",
+										"",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:59:19 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "695"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"48a7d94c-f472-49d7-8902-722b7cc57a18\",\n    \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n    \"organization_name\": \"TechNova Pvt Ltd new  at Updated\",\n    \"employee\": \"38230a8f-292d-4603-9df5-b72844ee9c52\",\n    \"employee_name\": \"Testemployee\",\n    \"employee_email\": \"emp@technova.com\",\n    \"employee_role\": \"EMPLOYEE\",\n    \"user\": 11,\n    \"policy\": \"dd1cd7d7-32ea-438d-8915-753ccd3fdbc7\",\n    \"policy_name\": \"NEW Updated Annual Leave\",\n    \"start_date\": \"2025-11-01\",\n    \"end_date\": \"2025-11-03\",\n    \"reason\": \"Family trip\",\n    \"attachment\": null,\n    \"status\": \"Approved\",\n    \"remarks\": \"Approved. Enjoy your leave!\",\n    \"reviewed_by\": 13,\n    \"reviewed_by_username\": \"technova_hrmanager\",\n    \"created_at\": \"2025-10-25T15:35:24.763697Z\",\n    \"updated_at\": \"2025-10-25T17:59:19.286838Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "HR reject the Leave Request",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin or HR can Create employees",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"action\": \"reject\",\r\n    \"remarks\": \"leave limit not meet\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/leaves/{{leave_id}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"leaves",
+								"{{leave_id}}",
+								""
+							]
+						},
+						"description": "Allows HR to reject a specific leave request.  \nMarks the request as \"Rejected\" with optional comments.\n\nNotes:  \nYou can also handle rejection using the /action/ endpoint  \nby passing \"action\": \"REJECT\" if you prefer a single endpoint for all actions."
+					},
+					"response": [
+						{
+							"name": "HR reject the Leave Request",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin or HR can Create employees",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"action\": \"reject\",\r\n    \"remarks\": \"leave limit not meet\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/leaves//",
+									"path": [
+										"leaves",
+										"",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 18:02:06 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "688"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"48a7d94c-f472-49d7-8902-722b7cc57a18\",\n    \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n    \"organization_name\": \"TechNova Pvt Ltd new  at Updated\",\n    \"employee\": \"38230a8f-292d-4603-9df5-b72844ee9c52\",\n    \"employee_name\": \"Testemployee\",\n    \"employee_email\": \"emp@technova.com\",\n    \"employee_role\": \"EMPLOYEE\",\n    \"user\": 11,\n    \"policy\": \"dd1cd7d7-32ea-438d-8915-753ccd3fdbc7\",\n    \"policy_name\": \"NEW Updated Annual Leave\",\n    \"start_date\": \"2025-11-01\",\n    \"end_date\": \"2025-11-03\",\n    \"reason\": \"Family trip\",\n    \"attachment\": null,\n    \"status\": \"Rejected\",\n    \"remarks\": \"leave limit not meet\",\n    \"reviewed_by\": 13,\n    \"reviewed_by_username\": \"technova_hrmanager\",\n    \"created_at\": \"2025-10-25T15:35:24.763697Z\",\n    \"updated_at\": \"2025-10-25T18:02:06.623798Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "View the Status of Leave",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}",
+								"description": "JWT acces token of Super_admin(only super admin can create hr",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/leaves/me/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"leaves",
+								"me",
+								""
+							]
+						},
+						"description": "Fetches all leave requests of the currently logged-in user.\n\nBehavior:\n\n- If logged in as Employee → Shows their own leave requests.\n    \n- If logged in as HR → Shows leave requests submitted by employees in their organization.\n    \n- Supports filtering and pagination if configured."
+					},
+					"response": [
+						{
+							"name": "View the Status of Leave",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"description": "JWT acces token of Super_admin(only super admin can create hr",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "/leaves/me/",
+									"path": [
+										"leaves",
+										"me",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 25 Oct 2025 17:56:59 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.12.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1332"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"5ac8681f-5568-4dea-9f18-73978642bcc3\",\n        \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n        \"organization_name\": \"TechNova Pvt Ltd new  at Updated\",\n        \"employee\": \"38230a8f-292d-4603-9df5-b72844ee9c52\",\n        \"employee_name\": \"Testemployee\",\n        \"employee_email\": \"emp@technova.com\",\n        \"employee_role\": \"EMPLOYEE\",\n        \"user\": 11,\n        \"policy\": \"dd1cd7d7-32ea-438d-8915-753ccd3fdbc7\",\n        \"policy_name\": \"NEW Updated Annual Leave\",\n        \"start_date\": \"2025-11-01\",\n        \"end_date\": \"2025-11-03\",\n        \"reason\": \"Family trip\",\n        \"attachment\": null,\n        \"status\": \"Pending\",\n        \"remarks\": null,\n        \"reviewed_by\": null,\n        \"reviewed_by_username\": null,\n        \"created_at\": \"2025-10-25T17:50:56.753998Z\",\n        \"updated_at\": \"2025-10-25T17:50:56.753998Z\"\n    },\n    {\n        \"id\": \"48a7d94c-f472-49d7-8902-722b7cc57a18\",\n        \"organization\": \"18f2a068-1d80-4657-8e7c-05d57326ebfd\",\n        \"organization_name\": \"TechNova Pvt Ltd new  at Updated\",\n        \"employee\": \"38230a8f-292d-4603-9df5-b72844ee9c52\",\n        \"employee_name\": \"Testemployee\",\n        \"employee_email\": \"emp@technova.com\",\n        \"employee_role\": \"EMPLOYEE\",\n        \"user\": 11,\n        \"policy\": \"dd1cd7d7-32ea-438d-8915-753ccd3fdbc7\",\n        \"policy_name\": \"NEW Updated Annual Leave\",\n        \"start_date\": \"2025-11-01\",\n        \"end_date\": \"2025-11-03\",\n        \"reason\": \"Family trip\",\n        \"attachment\": null,\n        \"status\": \"Rejected\",\n        \"remarks\": \"due to testing\",\n        \"reviewed_by\": 6,\n        \"reviewed_by_username\": \"2hr_manager\",\n        \"created_at\": \"2025-10-25T15:35:24.763697Z\",\n        \"updated_at\": \"2025-10-25T15:50:47.676414Z\"\n    }\n]"
+						}
+					]
+				}
+			]
+		}
+	]
+}

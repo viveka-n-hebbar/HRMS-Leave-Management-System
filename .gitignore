@@ -1,0 +1,26 @@
+# Python
+_pycache_/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+
+# Django migrations - exclude but allow _init_.py
+**/migrations/
+!/migrations/_init_.py
+
+# Environment
+.env
+*.env
+.env.*
+
+# SQLite DB
+db.sqlite3
+*.sqlite3
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.env/
