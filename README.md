@@ -99,31 +99,61 @@ Application runs at `http://127.0.0.1:8000/` by default.
 - Super Admin typically has no `organization` set. HR and Employee must be associated with an `Organization`.
 - Registration endpoints are protected: Super Admin or HR create HR/Employee accounts (project simulates this by checking `request.user.role`).
 
-## What was implemented (what you have)
-- Models: Organization, User (custom), Employee, LeavePolicy, Leave, LeavePolicyHistory
-- Role-based permissions at view level
-- Policy validations (policy serializer checks)
-- Leave validation examples (notice period, document requirement, yearly caps)
-- Policy version/history (snapshot stored on update)
-- Postman collection + published documentation link
+## Implementation Summary
 
-## What can be added easily (future improvements)
-- Background job worker (Celery) for escalations, scheduled carry-forward, encashment processing
-- Notification/email integration (SMTP or external service)
-- More advanced rule engine for policy conditions (store JSON rules and a lightweight evaluator)
-- Move each app into separate microservice with API gateway and message broker for true microservices
+### Core Architecture
+This system follows a **modular monolithic architecture** simulating a microservices structure, where each domain (Authentication, Organization, Employee, Leave Policy, and Leave Management) is isolated into its own Django app.  
+Each module is independently scalable and communicates through defined data models (via ForeignKey relationships).  
+This design allows easy transition to a true microservice architecture in the future using message brokers such as RabbitMQ or Kafka.
 
-## Future scope (short)
-This project is a modular monolith designed to be split later into independent microservices. To scale:
-- Convert apps to services (Auth, Employee, Policy, Leave) with separate deployments
-- Use message broker (RabbitMQ/Kafka) for async events (approvals, escalations)
-- Add centralized logging, monitoring, and multi-tenant isolation layers (schema-per-tenant or DB-per-tenant if required)
+### Key Modules and Relationships
+- **Organization:** Central tenant entity to which all HRs and Employees belong. Super Admin manages organization lifecycle.
+- **Auth (User Management):** Custom User model supporting roles — `SUPERADMIN`, `HR`, and `EMPLOYEE` — with JWT authentication for secure access control.
+- **Employee:** Each Employee is linked to both a `User` and an `Organization`.  
+  HRs can view or manage only their organization’s employees.
+- **Leave Policy:** Defines organization-specific leave rules (Annual, Sick, Casual, Unpaid).  
+  Includes parameters like maximum annual days, carry-forward limit, document requirement, and encashment eligibility.
+- **Leave Policy History:** Tracks every update to a leave policy as a new version snapshot for auditing and rollback support.
+- **Leave Management:** Central workflow connecting employees, policies, and HR actions.  
+  Handles leave application, validation, approval, rejection, and cancellation.
 
-## How to produce `requirements.txt`
-From your virtual environment:
-```bash
-pip freeze > requirements.txt
-```
+### Leave Workflow and Validation Logic
+The **Leave Management process** enforces strong business logic at both the model and serializer levels:
+- **Eligibility Validation:** Employee can apply for leave only under active policy types defined by their organization.
+- **Policy Constraints:**  
+  - Validates remaining leave balance and `max_days_per_year` constraint.  
+  - Enforces `notice_period_days` before the start date.  
+  - Requires document upload if leave exceeds `max_days_without_doc`.  
+- **Role-Based Actions:**  
+  - Employees can apply and track their own leaves (`/leaves/me/`).  
+  - HR users can view, approve, reject, or cancel requests within their organization.  
+  - Super Admin has read-only oversight of all organizations.
+- **Automated History Tracking:** Each policy update generates a new record in `LeavePolicyHistory`, maintaining a versioned audit trail.
+
+### Security and Access Control
+- Implemented using **JWT Authentication** with access and refresh tokens.
+- Each endpoint secured by `IsAuthenticated` and custom role-based permission classes.
+- Object-level permissions ensure HR and Employees cannot access data from other organizations.
+
+### Validation and Data Integrity
+- Serializer-level validation ensures that:
+  - Leave requests comply with organization policy constraints.
+  - Duplicate policies (same name and type) within the same organization are disallowed.
+  - Foreign key consistency is enforced across all modules.
+- Strict referential integrity between `User`, `Organization`, and `Employee`.
+
+### Testing and Documentation
+- Full API tested using **Postman** with organized collections per module.
+- Example responses and environment variables configured for reproducibility.
+- Published API documentation for external reference:  
+  **[View API Documentation](https://documenter.getpostman.com/view/49544672/2sB3Wjzj65)**
+
+### Future Enhancements
+- Integrate background tasks using **Celery** for periodic leave resets, carry-forward automation, and scheduled notifications.
+- Add email/SMS notifications for approval or rejection events.
+- Implement analytics dashboard for HR metrics (leave utilization, policy compliance).
+- Extend system into true microservices using RESTful inter-service communication and message queuing.
+- Enhance multi-tenancy with database-level isolation per organization for enterprise scalability.
 
 ## Testing and Postman export
 - Export Postman collection JSON and environment JSON and include them in the repo.
